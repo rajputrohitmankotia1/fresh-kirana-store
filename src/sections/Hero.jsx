@@ -1,6 +1,10 @@
 import { motion } from "framer-motion"
 
 function Hero() {
+  const whatsappMessage = encodeURIComponent(
+    "Hello Fresh Kirana Store, I would like to place an order."
+  )
+
   return (
     <section className="relative min-h-screen flex items-center bg-gradient-to-br from-[#DCFCE7] to-[#F8FAFC] pt-24">
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
@@ -10,7 +14,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6">
             Fresh Groceries <br />
             Delivered <span className="text-[#15803D]">To Your Door</span>
           </h1>
@@ -23,14 +27,16 @@ function Hero() {
           <div className="flex flex-wrap gap-4">
             <a
               href="#products"
-              className="bg-[#15803D] text-white px-6 py-3 rounded-lg hover:scale-105 transition"
+              className="bg-[#15803D] text-white px-6 py-3 rounded-xl hover:scale-105 transition duration-300"
             >
               Shop Now
             </a>
 
             <a
-              href="https://wa.me/91XXXXXXXXXX"
-              className="border border-[#15803D] px-6 py-3 rounded-lg hover:bg-[#15803D] hover:text-white transition"
+              href={`https://wa.me/919805814911?text=${whatsappMessage}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-[#15803D] px-6 py-3 rounded-xl hover:bg-[#15803D] hover:text-white transition duration-300"
             >
               Order on WhatsApp
             </a>
@@ -52,6 +58,7 @@ function Hero() {
             <li>✔ WhatsApp Order Confirmation</li>
           </ul>
         </motion.div>
+
       </div>
     </section>
   )
