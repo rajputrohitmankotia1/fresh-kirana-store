@@ -5,10 +5,13 @@ function Hero() {
     "Hello Fresh Kirana Store, I would like to place an order."
   )
 
+  const whatsappURL = `https://api.whatsapp.com/send?phone=919805814911&text=${whatsappMessage}`
+
   return (
     <section className="relative min-h-screen flex items-center bg-gradient-to-br from-[#DCFCE7] to-[#F8FAFC] pt-24">
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
 
+        {/* LEFT CONTENT */}
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
@@ -20,7 +23,7 @@ function Hero() {
           </h1>
 
           <p className="text-lg text-gray-600 mb-8">
-            Order daily essentials from Fresh Kirana Store with 
+            Order daily essentials from Fresh Kirana Store with
             WhatsApp, QR payment, or Cash on Delivery.
           </p>
 
@@ -33,7 +36,7 @@ function Hero() {
             </a>
 
             <a
-              href={`https://wa.me/919805814911?text=${whatsappMessage}`}
+              href={whatsappURL}
               target="_blank"
               rel="noopener noreferrer"
               className="border border-[#15803D] px-6 py-3 rounded-xl hover:bg-[#15803D] hover:text-white transition duration-300"
@@ -43,6 +46,7 @@ function Hero() {
           </div>
         </motion.div>
 
+        {/* RIGHT BOX */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
