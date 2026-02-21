@@ -34,5 +34,26 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: error.message })
   }
 })
+// UPDATE ORDER STATUS
+router.put("/:id/status", async (req, res) => {
+  try {
+    const { status } = req.body
+
+    const updatedOrder = await Order.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    )
+
+    if (!updatedOrder) {
+      return res.status(404).json({ error: "Order not found" })
+    }
+
+    res.json(updatedOrder)
+
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
 
 module.exports = router

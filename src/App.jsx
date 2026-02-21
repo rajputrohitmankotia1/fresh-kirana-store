@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom"
+import Admin from "./pages/Admin"
 import Navbar from "./components/Navbar"
 import Hero from "./sections/Hero"
 import Categories from "./sections/Categories"
@@ -15,6 +16,7 @@ function App() {
       <CartDrawer />
 
       <Routes>
+        <Route path="/admin" element={<Admin />} />
         <Route
           path="/"
           element={

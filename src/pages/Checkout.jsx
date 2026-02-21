@@ -3,6 +3,8 @@ import { CartContext } from "../context/CartContext"
 import axios from "axios"
 import qrImage from "../assets/scan_Pay.jpg"
 
+const API_URL = "https://fresh-kirana-backend.onrender.com/api/orders"
+
 function Checkout() {
   const { cartItems, total: cartTotal, clearCart } = useContext(CartContext)
 
@@ -14,22 +16,22 @@ function Checkout() {
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
 
-  // 🔥 Delivery Charge Logic
+  // 🚚 Delivery Charge Logic
   const deliveryCharge = useMemo(() => {
-  const km = Number(distance)
+    const km = Number(distance)
 
-  if (!km || km <= 0) return 0
-  if (km <= 3) return 15
-  if (km <= 7) return 25
-  if (km <= 12) return 40
-  if (km <= 15) return 55
-  return 60
-}, [distance])
+    if (!km || km <= 0) return 0
+    if (km <= 3) return 15
+    if (km <= 7) return 25
+    if (km <= 12) return 40
+    if (km <= 15) return 55
+    return 60
+  }, [distance])
 
   const finalTotal = cartTotal + deliveryCharge
 
   const saveOrder = async () => {
-    const response = await axios.post("http://localhost:5000/api/orders", {
+    const response = await axios.post(API_URL, {
       customerName: name,
       phone,
       address,
@@ -43,14 +45,26 @@ function Checkout() {
     return response.data.orderId
   }
 
-  const handleWhatsAppOrder = async () => {
+  const validateFields = () => {
     if (!name || !phone || !address || !distance) {
       setMessage("Please fill all details.")
-      return
+      return false
     }
+
+    if (cartItems.length === 0) {
+      setMessage("Your cart is empty.")
+      return false
+    }
+
+    return true
+  }
+
+  const handleWhatsAppOrder = async () => {
+    if (!validateFields()) return
 
     try {
       setLoading(true)
+      setMessage("")
 
       const orderId = await saveOrder()
 
@@ -66,8 +80,9 @@ Distance: ${distance} km
 Items:
 ${cartItems.map(item => `- ${item.name} ₹${item.price}`).join("\n")}
 
+Items Total: ₹${cartTotal}
 Delivery: ₹${deliveryCharge}
-Total: ₹${finalTotal}
+Final Total: ₹${finalTotal}
 `
 
       const whatsappLink = `https://wa.me/919805814911?text=${encodeURIComponent(whatsappMessage)}`
@@ -76,25 +91,28 @@ Total: ₹${finalTotal}
       window.location.href = whatsappLink
 
     } catch (error) {
-      setMessage("Order failed")
+      console.error(error)
+      setMessage("Order failed. Please try again.")
     } finally {
       setLoading(false)
     }
   }
 
   const handleNormalOrder = async () => {
-    if (!name || !phone || !address || !distance) {
-      setMessage("Please fill all details.")
-      return
-    }
+    if (!validateFields()) return
 
     try {
       setLoading(true)
+      setMessage("")
+
       await saveOrder()
+
       setMessage("Order placed successfully!")
       clearCart()
+
     } catch (error) {
-      setMessage("Order failed")
+      console.error(error)
+      setMessage("Order failed. Please try again.")
     } finally {
       setLoading(false)
     }
@@ -144,6 +162,7 @@ Total: ₹${finalTotal}
           </h3>
 
           <div className="space-y-4 mb-6">
+
             <label className="flex items-center space-x-3">
               <input
                 type="radio"
@@ -173,6 +192,7 @@ Total: ₹${finalTotal}
               />
               <span>Order via WhatsApp</span>
             </label>
+
           </div>
 
           {paymentMethod === "UPI" && (
@@ -180,7 +200,7 @@ Total: ₹${finalTotal}
               <img
                 src={qrImage}
                 alt="UPI QR"
-                className="w-64 h-64 mx-auto"
+                className="w-64 h-64 mx-auto rounded-lg shadow"
               />
             </div>
           )}
@@ -188,7 +208,7 @@ Total: ₹${finalTotal}
           {paymentMethod === "WHATSAPP" ? (
             <button
               onClick={handleWhatsAppOrder}
-              className="w-full bg-green-600 text-white py-3 rounded-xl"
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl transition"
               disabled={loading}
             >
               {loading ? "Processing..." : "Send Order on WhatsApp"}
@@ -196,7 +216,7 @@ Total: ₹${finalTotal}
           ) : (
             <button
               onClick={handleNormalOrder}
-              className="w-full bg-[#F97316] text-white py-3 rounded-xl"
+              className="w-full bg-[#F97316] hover:bg-orange-600 text-white py-3 rounded-xl transition"
               disabled={loading}
             >
               {loading ? "Processing..." : "Confirm Order"}
