@@ -1,8 +1,22 @@
-# React + Vite
+# Fresh Kirana Store
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack e-commerce web application designed for a local Kirana store, featuring a modern user interface and a robust backend.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
+**[View the Live Application](https://fresh-kirana-store.vercel.app)**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠️ Tech Stack
+* **Frontend:** React, Vite, Tailwind CSS
+* **Backend:** Node.js, Express
+* **Deployment:** Vercel
+
+## 📂 Project Structure
+* `/src` & `/public` - Frontend React components, Tailwind styling, and static assets.
+* `/backend` - Node.js server and API routing.
+* `vite.config.js` & `tailwind.config.js` - Configuration for the build tool and styling framework.
+
+## 💻 Local Setup Instructions
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/rajputrohitmankotia1/fresh-kirana-store.git](https://github.com/rajputrohitmankotia1/fresh-kirana-store.git)
